@@ -17,11 +17,15 @@
         <h4 class="playerPieceStatus"></h4>
 
         <section class="buttonPanel">
-            <input type="radio" name="opponentType" id="button_cpu" value="cpu" checked>
-            <label for="button_cpu">Player v. CPU</label>
+            <group class="radios">
+                <input type="radio" name="opponentType" id="button_cpu" value="cpu" checked>
+                <label for="button_cpu">Player v. CPU</label>
+            </group>
 
-            <input type="radio" name="opponentType" id="button_player" value="player">
-            <label for="button_player">Player v. Player</label>
+            <group class="radios">
+                <input type="radio" name="opponentType" id="button_player" value="player">
+                <label for="button_player">Player v. Player</label>
+            </group>
         </section>
     </header>
     <main>

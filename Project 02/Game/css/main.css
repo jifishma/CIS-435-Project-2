@@ -37,16 +37,25 @@ main {
     height: 10vmin;
     text-align: center;
     font-size: 5vmin;
-    border: 2px solid white;
+    border: 1px solid #555555;
     color: white;
     transition: all 1s;
 }
 
-.cell:hover {
-    background: radial-gradient(circle, rgb(0, 173, 207) 0%, rgba(2,0,36,1) 100%);
+.cell.winLine {
+    color: darkorchid;
+    font-size: 8vmin;
 }
 
-.cell:active {
+.board.playable .cell {
+    border: 2px solid white;
+}
+
+.board.playable .cell:hover {
+    background: radial-gradient(circle, rgb(0, 173, 207) 0%, rgb(2, 0, 36) 100%);
+}
+
+.board.playable .cell:active {
     background-color: lightgray;
 }
 
@@ -54,4 +63,10 @@ main {
     text-align: center;
     margin: auto;
     padding-bottom: 1em;
+}
+
+@media only screen and (max-width: 300px) {
+    .buttonPanel .radios {
+        display: block;
+    }
 }
