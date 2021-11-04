@@ -138,8 +138,8 @@ function endGame() {
     gameData.playerPieceStatus.textContent += "won!"
 }
 
-function mod(num, mod) {
-    return ((num % mod) + mod) % mod;
+function mod(num, m) {
+    return ((num % m) + m) % m;
 }
 //
 
@@ -214,7 +214,7 @@ function processLine(originIndex, rowIncrement, colIncrement, debug) {
 
     let cRow = Math.floor(originIndex / 3);
     let cCol = mod(originIndex, 3);
-    let index = originIndex;
+    let index = 0;
 
     let matches = [];
     for (let i = 0; i < 3; i++) {
