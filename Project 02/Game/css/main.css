@@ -1,0 +1,57 @@
+html {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h3, h4 {
+    text-align: center;
+}
+
+.board {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 60vmin;
+    max-width: 30em;
+    height: 60vmin;
+    max-height: 30em;
+    margin: auto;
+}
+
+main {
+    padding: 2em 0;
+    margin: 2em 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: black;
+}
+
+.cell {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 10vmin;
+    text-align: center;
+    font-size: 5vmin;
+    border: 2px solid white;
+    color: white;
+    transition: all 1s;
+}
+
+.cell:hover {
+    background: radial-gradient(circle, rgb(0, 173, 207) 0%, rgba(2,0,36,1) 100%);
+}
+
+.cell:active {
+    background-color: lightgray;
+}
+
+.buttonPanel {
+    text-align: center;
+    margin: auto;
+    padding-bottom: 1em;
+}
