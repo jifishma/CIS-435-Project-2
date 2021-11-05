@@ -198,7 +198,9 @@ function cpuOccupyCell() {
     } while (cellIsOccupied(index) || !panic);
 
     if (!panic) {
-        alert("Panic!");
+        alert("Panic! Race condition detected when searching for a cell to place a piece into. Resetting.");
+        console.log("Panic! Race condition detected when searching for a cell to place a piece into. Resetting.");
+        resetBoard();
         return;
     }
 
