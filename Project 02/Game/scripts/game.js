@@ -1,19 +1,30 @@
 // initialization
+'use strict';
+
 var gameData = {
     cells: [],
     board: null,
+
     title: null,
     turnStatus: null,
-    startButton: null,
     playerPieceStatus: null,
+    gameTimerStatus: null,
+
+    startButton: null,
+    playAgainButton: null,
+
     playerPieceIndex: 0,
     playerTurn: true,
     opponentIsCPU: false,
     gamePieces: ["x", "o"],
     placedPieces: 0,
+
     playing: false,
     playerWon: false,
-    stalemate: true
+    stalemate: true,
+
+    gameTimerInterval: -1,
+    gameStartTime: 0,
 }
 
 window.onload = function () {
@@ -21,23 +32,29 @@ window.onload = function () {
     gameData.board = document.querySelector(".board");
     gameData.turnStatus = document.querySelector(".turnStatus");
     gameData.playerPieceStatus = document.querySelector(".playerPieceStatus");
+    gameData.gameTimerStatus = document.querySelector("#gameTime");
     gameData.startButton = document.querySelector("#startGame");
+    gameData.playAgainButton = document.querySelector("#playAgain");
 
     resetBoard();
 }
+
 //
 
 // start & restart
 function startGame() {
+    resetBoard();
+
     let opponentType = document.querySelector('input[name="opponentType"]:checked').value;
     if (opponentType === "cpu")
         gameData.opponentIsCPU = true;
 
+    gameData.gameTimerInterval = setInterval(updateGameTime, 1000);
+    gameData.gameStartTime = Date.now();
     selectStartingPlayer();
     updateStatus();
     gameData.playerPieceStatus.textContent = "The player's piece is [" + getPlayerPiece() + "]";
     gameData.playing = true;
-    gameData.startButton.disabled = true;
 
     gameData.board.classList.add("playable");
 
@@ -46,6 +63,8 @@ function startGame() {
 }
 
 function resetBoard() {
+    gameData.playAgainButton.disabled = true;
+
     gameData.cells.forEach(cell => {
         cell.textContent = "";
         cell.classList.remove("winLine");
@@ -59,7 +78,9 @@ function resetBoard() {
     gameData.playing = false;
     gameData.opponentIsCPU = false;
 
-    gameData.startButton.disabled = false;
+    clearInterval(gameData.gameTimerInterval);
+    gameData.gameStartTime = 0;
+
     gameData.board.classList.remove("playable");
 }
 //
@@ -84,6 +105,8 @@ function placePiece(col, row) {
 
 // light logic
 function sleep(milliSeconds) {
+    // Let's use setTimeout() wrapped in a Promise :)
+    // It's cleaner to use the .then() structure I think.
     return new Promise(resolve => setTimeout(resolve, milliSeconds));
 }
 
@@ -100,7 +123,7 @@ function getOpponentPiece() {
 }
 
 function cellIsOccupied(index) {
-    return gameData.cells[index].textContent != ""
+    return getCellPiece(index) != ""
 }
 
 function getCellPiece(index) {
@@ -109,12 +132,21 @@ function getCellPiece(index) {
 
 function updateStatus() {
     let status = "";
+    let piece = gameData.playerTurn ? getPlayerPiece() : getOpponentPiece();
+
     if (gameData.playerTurn)
         status = "player's"
     else
         status = gameData.opponentIsCPU ? "CPU's" : "opponent's";
 
-    gameData.turnStatus.textContent = "It's the " + status + " turn.";
+    gameData.turnStatus.textContent = "It's the " + status + " turn. [" + piece + "]";
+}
+
+function updateGameTime() {
+    let curSeconds = Math.floor((Date.now() - gameData.gameStartTime)/ 1000).toString().padStart(2, "0");
+    let curMins = Math.floor(curSeconds / 60).toString().padStart(2, "0");
+    let curHours = Math.floor(curMins / 60).toString().padStart(2, "0");
+    gameData.gameTimerStatus.textContent = curHours + ":" + curMins + ":" + curSeconds + "s";
 }
 
 function cpuPlayPiece() {
@@ -124,7 +156,10 @@ function cpuPlayPiece() {
 
 function endGame() {
     gameData.playing = false;
+    gameData.playAgainButton.disabled = false;
     gameData.board.classList.remove("playable");
+    
+    clearInterval(gameData.gameTimerInterval);
 
     gameData.playerPieceStatus.textContent = "Game over, ";
 
@@ -136,6 +171,7 @@ function endGame() {
         gameData.playerPieceStatus.textContent += "nobody ";
 
     gameData.playerPieceStatus.textContent += "won!"
+
 }
 
 function mod(num, m) {

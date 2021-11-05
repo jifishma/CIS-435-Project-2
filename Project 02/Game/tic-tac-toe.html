@@ -13,9 +13,7 @@
 <body>
     <header>
         <h1 class="gameTitle">Tic-Tac-Toe</h1>
-        <h3 class="turnStatus">An error occurred.</h3>
-        <h4 class="playerPieceStatus"></h4>
-
+        <h3 id="gameTime">00:00:00s</h3>
         <section class="buttonPanel">
             <group class="radios">
                 <input type="radio" name="opponentType" id="button_cpu" value="cpu" checked>
@@ -51,9 +49,13 @@
             </tbody>
         </table>
     </main>
-    <footer class="buttonPanel">
-        <button type="button" id="startGame" onclick="startGame()">Start</button>
-        <button type="button" onclick="resetBoard()">Reset</button>
+    <footer>
+        <h3 class="turnStatus">An error occurred.</h3>
+        <h4 class="playerPieceStatus"></h4>
+        <section class="buttonPanel">
+            <button type="button" id="startGame" onclick="startGame()">Start / Restart</button>
+            <button type="button" id="playAgain" onclick="startGame()">Play Again?</button>
+        </section>
     </footer>
 </body>
 
