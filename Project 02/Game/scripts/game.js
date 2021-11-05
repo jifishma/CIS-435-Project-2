@@ -42,6 +42,13 @@ window.onload = function () {
 //
 
 // start & restart
+function startRestart() {
+    if (gameData.playing)
+        resetBoard();
+    else 
+        startGame();
+}
+
 function startGame() {
     resetBoard();
 
@@ -80,6 +87,7 @@ function resetBoard() {
 
     clearInterval(gameData.gameTimerInterval);
     gameData.gameStartTime = 0;
+    gameData.gameTimerStatus.textContent = "00:00:00s";
 
     gameData.board.classList.remove("playable");
 }
@@ -205,40 +213,37 @@ function occupyCell(index) {
     cell.textContent = piece;
     gameData.placedPieces++;
 
-    if (checkBoard(index))
+    if (checkBoardForWin(index)) {
+        endGame();
         return;
+    }
 
     gameData.playerTurn = !gameData.playerTurn;
 }
 
-function checkBoard(originIndex) {
+function checkBoardForWin(originIndex) {
     console.log("----------------------")
     console.log(originIndex);
 
     if (processLine(originIndex, 1, 0)) {
-        endGame();
         return true;
     }
 
     if (processLine(originIndex, 0, 1)) {
-        endGame();
         return true;
     }
 
     if (processLine(0, 1, 1, true)) {
-        endGame();
         return true;
     }
 
     if (processLine(6, 1, -1, true)) {
-        endGame();
         return true;
     }
 
     console.log("----------------------\n")
 
     if (gameData.placedPieces >= gameData.cells.length) {
-        endGame();
         return true;
     }
 
